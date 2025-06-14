@@ -108,7 +108,11 @@
         [pillView addSubview:blurView];
 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectInset(pillView.bounds, 20, 10)];
-        label.text = message;
+        NSString *bundleId = NSBundle.mainBundle.bundleIdentifier;
+NSString *version = NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"];
+NSString *region = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+
+label.text = [NSString stringWithFormat:@"📦 %@\n🌏 %@ | v%@\n\n%@", bundleId, region, version, message];
         label.numberOfLines = 3;
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = UIColor.labelColor;
