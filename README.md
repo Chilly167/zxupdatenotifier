@@ -1,14 +1,16 @@
-# zxUpdateNotifier
+zxUpdateNotifier
 
-an injectable tweak that notifies you of app updates; useful when sideloading
+A lightweight, injectable tweak that runs in the background and periodically checks for App Store updates of installed apps — ideal for sideloaded or cloned apps that don’t receive native update notifications.
 
-## info
-
-completed for a [bounty](https://www.reddit.com/r/TweakBounty/comments/1cvl74s/1016_can_anyone_make_a_appstore_notifications/) !
-
-~~i'll totally open source it if someone decides to send me $5 through btc/ltc, tho :p (yes i am that desperate for money)~~
-
-~~or maybe i'll open source it soon enough if no one donates!!! maybe.~~
-
-here you go guys! please still donate oh my god servers are expensive
-
+✨ Features
+	•	⏱ Checks for updates every 6 hours
+	•	📲 Works with all App Store apps (even sideloaded ones)
+	•	🇦🇺 Optimized for Australian App Store region (changeable)
+	•	🔒 Encrypted link delivery for update downloads (future support)
+	•	🛠 Supports injection into:
+	•	IPA files (via insert_dylib)
+	•	.dylib tweaks using MobileSubstrate
+	•	.deb packages for jailbroken environments
+	•	🧊 UI styled like iOS 26 “Liquid Glass” notification pill
+	•	🎯 Filter system to skip system apps or monitor only specific vendors
+	•	📦 Optional: Save app metadata locally or to iCloud
