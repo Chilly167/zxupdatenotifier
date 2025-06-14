@@ -1,9 +1,10 @@
-Package: fyi.zxcvbn.updatenotifier
+Package: com.chilly167.zxupdatenotifier
 Name: zxUpdateNotifier
-Version: 1.2
+Version: 1.2-1
 Architecture: iphoneos-arm
-Description: an injectable tweak that detects when your IPA is out of date!
-Author: zxcvbn
-Maintainer: zxcvbn
+Description: Background App Store update notifier with system-wide injection and glass-style overlay support.
+Maintainer: Chilly167
+Author: Chilly167
 Section: Tweaks
-Depends: firmware (>= 9.0)
+Depends: firmware (>= 14.0), com.rpetrich.rocketbootstrap
+Tag: role::tweak, purpose::utility
