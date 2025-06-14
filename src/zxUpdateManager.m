@@ -84,26 +84,70 @@
 }
 
 + (void)notifyWithMsg:(NSString *)msg buttonText:(NSString *)bText handler:(void (^)(UIAlertAction *action))handler {
-    os_log(OS_LOG_DEFAULT, "[zxUpdateManager] Displaying popup: %@", msg);
+    os_log(OS_LOG_DEFAULT, "[zxUpdateManager] Displaying pill overlay: %@", msg);
+    [self showLiquidPillWithText:msg buttonText:bText tapHandler:handler];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"zxUpdateNotifier"
-                                                                       message:msg
-                                                                preferredStyle:UIAlertControllerStyleAlert];
+}
 
-        UIAlertAction *act = [UIAlertAction actionWithTitle:bText
-                                                      style:UIAlertActionStyleDefault
-                                                    handler:handler];
++ (void)showLiquidPillWithText:(NSString *)message buttonText:(NSString *)buttonText tapHandler:(void (^)(UIAlertAction *action))handler {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIWindow *window = UIApplication.sharedApplication.windows.firstObject;
+        if (!window) return;
 
-        [alert addAction:act];
+        CGFloat pillWidth = window.bounds.size.width - 40;
+        UIView *pillView = [[UIView alloc] initWithFrame:CGRectMake(20, window.bounds.size.height - 120, pillWidth, 80)];
+        pillView.layer.cornerRadius = 20;
+        pillView.layer.masksToBounds = YES;
+        pillView.alpha = 0;
 
-        UIWindow *keyWindow = UIApplication.sharedApplication.windows.firstObject;
-        UIViewController *rvc = keyWindow.rootViewController;
-        while (rvc.presentedViewController) {
-            rvc = rvc.presentedViewController;
-        }
-        [rvc presentViewController:alert animated:YES completion:nil];
+        UIBlurEffectStyle style = UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark ?
+            UIBlurEffectStyleSystemThickDark : UIBlurEffectStyleSystemMaterialLight;
+        UIVisualEffectView *blurView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:style]];
+        blurView.frame = pillView.bounds;
+        blurView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        [pillView addSubview:blurView];
+
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectInset(pillView.bounds, 20, 10)];
+        label.text = message;
+        label.numberOfLines = 3;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = UIColor.labelColor;
+        label.font = [UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
+        [pillView addSubview:label];
+
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePillTap:)];
+        [pillView addGestureRecognizer:tap];
+        pillView.userInteractionEnabled = YES;
+        pillView.tag = 9911;
+
+        [window addSubview:pillView];
+
+        [UIView animateWithDuration:0.3 animations:^{
+            pillView.alpha = 1.0;
+        }];
+
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(6.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            UIView *existing = [window viewWithTag:9911];
+            if (existing) {
+                [UIView animateWithDuration:0.3 animations:^{
+                    existing.alpha = 0;
+                } completion:^(BOOL finished) {
+                    [existing removeFromSuperview];
+                }];
+            }
+        });
     });
+}
+
++ (void)handlePillTap:(UITapGestureRecognizer *)gesture {
+    UIView *pill = gesture.view;
+    if (pill) {
+        [UIView animateWithDuration:0.3 animations:^{
+            pill.alpha = 0;
+        } completion:^(BOOL finished) {
+            [pill removeFromSuperview];
+        }];
+    }
 }
 
 @end
