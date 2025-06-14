@@ -1,4 +1,4 @@
-#import "zxUpdateManager.h"
+#import "z#import "zxUpdateManager.h"
 
 __attribute__((constructor)) static void init() {
     @autoreleasepool {
