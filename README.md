@@ -3,10 +3,15 @@ zxUpdateNotifier
 A lightweight, injectable tweak that runs in the background and periodically checks for App Store updates of installed apps — ideal for sideloaded or cloned apps that don’t receive native update notifications.
 
 ✨ Features
-	•	⏱ Checks for updates every 6 hours
-	•	📲 Works with all App Store apps (even sideloaded ones)
-	•	🇦🇺 Optimized for Australian App Store region (changeable)
-	•	🔒 Encrypted link delivery for update downloads (future support)
+	
+•	⏱ Checks for updates every 6 hours
+	
+•	📲 Works with all App Store apps (even sideloaded ones)
+	
+•	🇦🇺 Optimized for Australian App Store region (changeable)
+	
+•	🔒 Encrypted link delivery for update downloads (future support)
+
 	•	🛠 Supports injection into:
 	•	IPA files (via insert_dylib)
 	•	.dylib tweaks using MobileSubstrate
