@@ -112,7 +112,7 @@
 NSString *version = NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"];
 NSString *region = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
 
-label.text = [NSString stringWithFormat:@"📦 %@\n🌏 %@ | v%@\n\n%@", bundleId, region, version, message];
+        label.text = [NSString stringWithFormat:@"📦 %@\n🌏 %@ | v%@\n\n%@", bundleId, region, version, message];
         label.numberOfLines = 3;
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = UIColor.labelColor;
