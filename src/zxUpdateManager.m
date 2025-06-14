@@ -22,9 +22,13 @@
 }
 
 + (void)getAppInfoWithBundleId:(NSString *)bundleId currentVersion:(NSString *)cVersion {
+    // Auto-detect region
+    NSString *regionCode = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+    if (!regionCode) regionCode = @"US"; // Fallback
+
     NSString *reqURL = [NSString stringWithFormat:
-        @"https://itunes.apple.com/lookup?limit=1&hi=%@&bundleId=%@",
-        NSUUID.UUID.UUIDString, bundleId];
+        @"https://itunes.apple.com/lookup?limit=1&hi=%@&bundleId=%@&country=%@",
+        NSUUID.UUID.UUIDString, bundleId, regionCode];
 
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:reqURL]];
 
