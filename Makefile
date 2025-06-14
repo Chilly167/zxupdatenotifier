@@ -1,14 +1,20 @@
-TARGET := iphone:clang:latest:latest
-ARCHS = arm64 arm64e
-INSTALL_TARGET_PROCESSES = WhatsApp
+TARGET := iphone:clang:latest:14.0
+INSTALL_TARGET_PROCESSES = SpringBoard
 
-export SDKVERSION = $(shell xcrun --sdk iphoneos --show-sdk-version)
+THEOS_DEVICE_IP = 127.0.0.1
+THEOS_DEVICE_PORT = 22
+
+ARCHS = arm64 arm64e
+SDKVERSION = 14.5
+TARGET_VERSION = 14.0
 
 include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = zxUpdateNotifier
 
-$(TWEAK_NAME)_FILES = $(wildcard src/*.m)
-$(TWEAK_NAME)_CFLAGS = -fobjc-arc -Wno-deprecated-declarations
+zxUpdateNotifier_FILES = Tweak.m zxUpdateManager.m
+zxUpdateNotifier_FRAMEWORKS = UIKit Foundation
+zxUpdateNotifier_PRIVATE_FRAMEWORKS = AppSupport
+zxUpdateNotifier_LDFLAGS = -Wl,-segalign,4000
 
 include $(THEOS_MAKE_PATH)/tweak.mk
