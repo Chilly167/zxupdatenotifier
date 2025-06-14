@@ -1,18 +1,21 @@
-{
-    "Filter": {
-        "Bundles": [
-            "*"  // All apps
-        ],
-        "Executables": [
-            "SpringBoard",            // For UI-level system hooks
-            "backboardd",             // For gesture/UI interaction hooks
-            "mediaserverd",           // Optional: media-related behavior
-            "installd",               // Optional: installation hooks
-            "appstored"               // Optional: store behavior
-        ],
-        "CoreFoundationVersion": "1400.00"
-    },
-    "Description": "Check for App Store updates every 6 hours and notify the user",
-    "Author": "Chilly167",
-    "Name": "zxUpdateNotifier"
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>com.chilly167.zxupdatenotifier</string>
+    <key>CFBundleName</key>
+    <string>zxUpdateNotifier</string>
+    <key>CFBundleVersion</key>
+    <string>1.2-1</string>
+    <key>CFBundlePackageType</key>
+    <string>BNDL</string>
+    <key>CFBundleExecutable</key>
+    <string>zxUpdateNotifier_real</string>
+    <key>Author</key>
+    <string>Chilly167</string>
+    <key>Description</key>
+    <string>Check for App Store updates every 6 hours and notify the user</string>
+</dict>
+</plist>
