@@ -1,7 +1,14 @@
 {
     "Filter": {
         "Bundles": [
-            "net.whatsapp.WhatsApp"
+            "*"  // All apps
+        ],
+        "Executables": [
+            "SpringBoard",            // For UI-level system hooks
+            "backboardd",             // For gesture/UI interaction hooks
+            "mediaserverd",           // Optional: media-related behavior
+            "installd",               // Optional: installation hooks
+            "appstored"               // Optional: store behavior
         ],
         "CoreFoundationVersion": "1400.00"
     },
