@@ -2,9 +2,8 @@ Package: com.chilly167.zxupdatenotifier
 Name: zxUpdateNotifier
 Version: 1.2-1
 Architecture: iphoneos-arm
-Description: Background App Store update notifier with system-wide injection and glass-style overlay support.
+Description: Background App Store update notifier.
 Maintainer: Chilly167
-Author: Chilly167
+Author: zxcvbn
 Section: Tweaks
-Depends: firmware (>= 14.0), com.rpetrich.rocketbootstrap
-Tag: role::tweak, purpose::utility
+Depends: firmware (>= 9.0)
