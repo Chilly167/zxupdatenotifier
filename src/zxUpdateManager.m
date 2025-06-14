@@ -1,4 +1,4 @@
-#import "zxUpdateManager.h"
+##import "zxUpdateManager.h"
 #import <os/log.h>
 #import <UIKit/UIKit.h>
 
@@ -22,13 +22,11 @@
 }
 
 + (void)getAppInfoWithBundleId:(NSString *)bundleId currentVersion:(NSString *)cVersion {
-    // Auto-detect region
-    NSString *regionCode = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
-    if (!regionCode) regionCode = @"US"; // Fallback
+    NSString *regionCode = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode] ?: @"US";
 
     NSString *reqURL = [NSString stringWithFormat:
-        @"https://itunes.apple.com/lookup?limit=1&hi=%@&bundleId=%@&country=%@",
-        NSUUID.UUID.UUIDString, bundleId, regionCode];
+        @"https://itunes.apple.com/lookup?bundleId=%@&country=%@",
+        bundleId, regionCode];
 
     NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:reqURL]];
 
@@ -41,7 +39,12 @@
             return;
         }
 
-        NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        NSError *jsonErr = nil;
+        NSDictionary *resp = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonErr];
+        if (!resp || jsonErr) {
+            os_log(OS_LOG_DEFAULT, "JSON parse failed: %@", jsonErr.localizedDescription);
+            return;
+        }
 
         if ([resp[@"resultCount"] isEqual:@0]) {
             [self markInvalidWithMsg:@"This app was not found on the App Store.\n\nP.S. Did you change the bundle ID?"
@@ -80,13 +83,12 @@
 
 + (void)markInvalidWithMsg:(NSString *)msg text:(NSString *)text {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"zxAvoidUpdates"];
-    [self showLiquidPillWithText:msg buttonText:text tapHandler:handler];
+    [self showLiquidPillWithText:msg buttonText:text tapHandler:nil];
 }
 
 + (void)notifyWithMsg:(NSString *)msg buttonText:(NSString *)bText handler:(void (^)(UIAlertAction *action))handler {
     os_log(OS_LOG_DEFAULT, "[zxUpdateManager] Displaying pill overlay: %@", msg);
     [self showLiquidPillWithText:msg buttonText:bText tapHandler:handler];
-
 }
 
 + (void)showLiquidPillWithText:(NSString *)message buttonText:(NSString *)buttonText tapHandler:(void (^)(UIAlertAction *action))handler {
@@ -109,11 +111,11 @@
 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectInset(pillView.bounds, 20, 10)];
         NSString *bundleId = NSBundle.mainBundle.bundleIdentifier;
-NSString *version = NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"];
-NSString *region = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+        NSString *version = NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"];
+        NSString *region = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
 
         label.text = [NSString stringWithFormat:@"📦 %@\n🌏 %@ | v%@\n\n%@", bundleId, region, version, message];
-        label.numberOfLines = 3;
+        label.numberOfLines = 0;
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = UIColor.labelColor;
         label.font = [UIFont systemFontOfSize:16 weight:UIFontWeightMedium];
