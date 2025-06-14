@@ -80,7 +80,7 @@
 
 + (void)markInvalidWithMsg:(NSString *)msg text:(NSString *)text {
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"zxAvoidUpdates"];
-    [self notifyWithMsg:msg buttonText:text handler:nil];
+    [self showLiquidPillWithText:msg buttonText:text tapHandler:handler];
 }
 
 + (void)notifyWithMsg:(NSString *)msg buttonText:(NSString *)bText handler:(void (^)(UIAlertAction *action))handler {
