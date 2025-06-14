@@ -12,6 +12,8 @@ A lightweight, injectable tweak that runs in the background and periodically che
 	
 •	🔒 Encrypted link delivery for update downloads (future support)
 
+CREDIT ZXCVBN
+
 	•	🛠 Supports injection into:
 	•	IPA files (via insert_dylib)
 	•	.dylib tweaks using MobileSubstrate
