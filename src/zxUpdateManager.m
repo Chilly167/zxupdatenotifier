@@ -53,8 +53,9 @@
         }
 
         NSDictionary *latest = resp[@"results"][0];
-        NSString *latestVersion = latest[@"version"];
-        NSString *trackId = [latest[@"trackId"] stringValue];
+NSString *latestVersion = latest[@"version"];
+NSString *releaseNotes = latest[@"releaseNotes"] ?: @"No notes provided.";
+NSString *trackId = [latest[@"trackId"] stringValue];
 
         NSDictionary *latestInfo = @{
             @"id": trackId,
@@ -67,7 +68,9 @@
         if (![latestVersion isEqualToString:cVersion]) {
             [[NSUserDefaults standardUserDefaults] setObject:latestInfo forKey:@"zxAppInfo"];
 
-            NSString *updMsg = [NSString stringWithFormat:@"An update is available!\n\nv%@ → v%@", cVersion, latestVersion];
+            NSString *updMsg = [NSString stringWithFormat:
+    @"An update is available!\n\nv%@ → v%@\n\n📝 %@", 
+    cVersion, latestVersion, releaseNotes];
             NSString *storeLink = [NSString stringWithFormat:@"https://apps.apple.com/app/id%@", trackId];
 
             [self notifyWithMsg:updMsg
