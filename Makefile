@@ -1,6 +1,6 @@
 TARGET := iphone:clang:latest:14.0
 
-ARCHS = arm64 arm64e
+ARCHS = arm64
 SDKVERSION = 17.0
 TARGET_VERSION = 14.0
 
