@@ -164,4 +164,5 @@ label.text = [NSString stringWithFormat:
         } completion:^(BOOL finished) {
             [pill removeFromSuperview];
     });
+  {
 @end
