@@ -2,7 +2,7 @@
 #import <os/log.h>
 #import <UIKit/UIKit.h>
 
-@implementation zxUpdateManager
+@implementation zxUpdateManager: NSObject
 
 + (void)validityCheck {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"zxAvoidUpdates"]) return;
