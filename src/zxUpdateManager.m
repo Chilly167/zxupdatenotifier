@@ -52,36 +52,39 @@
             return;
         }
 
-        NSDictionary *latest = resp[@"results"][0];
+NSDictionary *latest = resp[@"results"][0];
 NSString *latestVersion = latest[@"version"];
 NSString *releaseNotes = latest[@"releaseNotes"] ?: @"No notes provided.";
 NSString *trackId = [latest[@"trackId"] stringValue];
 
-        NSDictionary *latestInfo = @{
-            @"id": trackId,
-            @"version": latestVersion,
-            @"lastSeen": cVersion
-        };
+if (releaseNotes.length > 300) {
+    releaseNotes = [[releaseNotes substringToIndex:297] stringByAppendingString:@"..."];
+}
 
-        os_log(OS_LOG_DEFAULT, "[zxUpdateManager] Latest info: %@", latestInfo);
+NSDictionary *latestInfo = @{
+    @"id": trackId,
+    @"version": latestVersion,
+    @"lastSeen": cVersion
+};
 
-        if (![latestVersion isEqualToString:cVersion]) {
-            [[NSUserDefaults standardUserDefaults] setObject:latestInfo forKey:@"zxAppInfo"];
+os_log(OS_LOG_DEFAULT, "[zxUpdateManager] Latest info: %@", latestInfo);
 
-            NSString *updMsg = [NSString stringWithFormat:
-    @"An update is available!\n\nv%@ → v%@\n\n📝 %@", 
-    cVersion, latestVersion, releaseNotes];
-            NSString *storeLink = [NSString stringWithFormat:@"https://apps.apple.com/app/id%@", trackId];
+if (![latestVersion isEqualToString:cVersion]) {
+    [[NSUserDefaults standardUserDefaults] setObject:latestInfo forKey:@"zxAppInfo"];
 
-            [self notifyWithMsg:updMsg
-                     buttonText:@"Let me see!"
-                        handler:^(UIAlertAction *action) {
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:storeLink]
-                                                   options:@{}
-                                         completionHandler:nil];
-            }];
-        }
-    }] resume];
+    NSString *updMsg = [NSString stringWithFormat:
+        @"An update is available!\n\nv%@ → v%@\n\n📝 %@",
+        cVersion, latestVersion, releaseNotes];
+
+    NSString *storeLink = [NSString stringWithFormat:@"https://apps.apple.com/app/id%@", trackId];
+
+    [self notifyWithMsg:updMsg
+             buttonText:@"Let me see!"
+                handler:^(UIAlertAction *action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:storeLink]
+                                           options:@{}
+                                 completionHandler:nil];
+    }];
 }
 
 + (void)markInvalidWithMsg:(NSString *)msg text:(NSString *)text {
