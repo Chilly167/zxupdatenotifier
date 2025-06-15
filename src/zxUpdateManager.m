@@ -114,7 +114,12 @@
         NSString *version = NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"];
         NSString *region = [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
 
-        label.text = [NSString stringWithFormat:@"📦 %@\n🌏 %@ | v%@\n\n%@", bundleId, region, version, message];
+        NSString *timestamp = [[NSDate date] descriptionWithLocale:[NSLocale currentLocale]];
+NSString *statusLine = [message containsString:@"update"] ? @"⬆️ Update available" : @"✅ Up to date";
+
+label.text = [NSString stringWithFormat:
+    @"📦 %@\n🌏 %@ | v%@\n🕒 %@\n%@\n\n%@", 
+    bundleId, region, version, timestamp, statusLine, message];
         label.numberOfLines = 0;
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = UIColor.labelColor;
