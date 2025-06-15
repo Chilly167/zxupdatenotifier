@@ -6,4 +6,4 @@ Description: Background App Store update notifier.
 Maintainer: Chilly167
 Author: zxcvbn
 Section: Tweaks
-Depends: firmware (>= 10.0)
+Depends: firmware (>= 14.0)
