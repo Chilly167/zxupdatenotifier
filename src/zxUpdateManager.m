@@ -163,6 +163,6 @@ label.text = [NSString stringWithFormat:
             pill.alpha = 0;
         } completion:^(BOOL finished) {
             [pill removeFromSuperview];
-        }];
+    }];
 }
-&end
+@end
